@@ -1,0 +1,43 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'          # e.g., v0.3.0
+
+permissions:
+  id-token: write     # REQUIRED for OIDC / trusted publishing
+  contents: read
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Sync (no dev deps)
+        run: uv sync --frozen
+
+      - name: Build sdist/wheel
+        run: uv build
+
+      - name: Publish to PyPI (Trusted Publishing)
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          print-hash: true
+          attestations: true
+          packages-dir: dist/
+          # To publish to TestPyPI instead, uncomment:
+          # repository-url: https://test.pypi.org/legacy/

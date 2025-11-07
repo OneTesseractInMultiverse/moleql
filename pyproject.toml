@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
     { name = "Pedro Guzmán", email = "pedro@subvertic.com" }
 ]
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 dependencies = [
     "dateparse>=1.4.0",
     "dateparser>=1.2.2",
