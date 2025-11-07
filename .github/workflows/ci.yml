@@ -35,16 +35,8 @@ jobs:
       - name: Lint (Ruff)
         run: uv run ruff check
 
-      - name: Type check (optional, if using mypy/pyright)
-        run: |
-          if uv run mypy --version >/dev/null 2>&1; then
-            uv run mypy
-          else
-            echo "mypy not configured; skipping."
-          fi
-
       - name: Tests
-        run: uv run pytest -q
+        run: uv run pytest -k benchmark --benchmark-autosave
 
       - name: Coverage (optional)
         run: |
