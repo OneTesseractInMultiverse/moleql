@@ -1,3 +1,9 @@
+
+<p align="center">
+  <img src="assets/logo.png" alt="MoleQL logo" width="240" />
+</p>
+
+
 # MoleQL
 
 > Expressive URL-query to MongoDB query conversion library.
