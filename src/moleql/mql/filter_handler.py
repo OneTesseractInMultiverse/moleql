@@ -110,9 +110,9 @@ def build_query(
     if is_list(value):
         casted_items: list[Any] = [cast(item, casters) for item in value]
         if operator == "=":
-            return {key: {"$in": casted_items}}
+            return in_list(casted_items, key)
         elif operator == "!=":
-            return {key: {"$nin": casted_items}}
+            return not_in_list(casted_items, key)
         raise ListOperatorError(LIST_OPERATOR_ERROR_TEMPLATE.format(operator=operator))
 
     # $exists operator
@@ -121,6 +121,20 @@ def build_query(
 
     # $gt, $gte, $lt, $lte, $ne ...
     return {key: {MONGO_OPERATOR_MAPPING[operator]: value}}
+
+
+# =========================================================
+# NOT IN LIST
+# =========================================================
+def not_in_list(casted_items: list[Any], key: str) -> dict[str, dict[str, list[Any]]]:
+    return {key: {"$nin": casted_items}}
+
+
+# =========================================================
+# IN LIST
+# =========================================================
+def in_list(casted_items: list[Any], key: str) -> dict[str, dict[str, list[Any]]]:
+    return {key: {"$in": casted_items}}
 
 
 # =========================================================

@@ -6,7 +6,7 @@ SEPARATOR: str = "="
 SECOND_ELEMENT_INDEX: int = 1
 INVALID_SORT_VALUE_ERROR: str = (
     "{value} is not a valid format for sort. "
-    "Valid formats are: sort=-propery or "
+    "Valid formats are: sort=-property or "
     "sort=+property"
 )
 PARAM_ITEM_SEPARATOR: str = ","

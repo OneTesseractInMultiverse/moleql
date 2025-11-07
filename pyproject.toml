@@ -38,6 +38,9 @@ ignore = []  # add codes you want to silence
 dev = [
     "pre-commit>=4.3.0",
     "pyinstrument>=5.1.1",
+    "pytest>=8.4.2",
+    "pytest-benchmark>=5.2.2",
+    "pytest-cov>=7.0.0",
     "ruff>=0.14.4",
 ]
 # Use Ruff's formatter (Black-compatible)
