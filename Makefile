@@ -8,3 +8,6 @@ install-git-hook:
 
 pre-commit:
 	uv run pre-commit run --all-files
+
+test:
+	uv run pytest -v

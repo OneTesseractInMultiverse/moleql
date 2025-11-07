@@ -8,7 +8,10 @@ authors = [
 ]
 requires-python = ">=3.14"
 dependencies = [
+    "dateparse>=1.4.0",
+    "dateparser>=1.2.2",
     "mypy>=1.18.2",
+    "pymongo>=4.15.3",
     "pytest>=8.4.2",
     "ruff>=0.14.4",
 ]
@@ -26,7 +29,7 @@ line-length = 100
 src = ["src", "tests"]
 
 [tool.ruff.lint]
-select = ["F", "E", "W", "I", "UP"]
+select = ["F", "E", "W", "I", "UP", "PERF"]
 ignore = []  # add codes you want to silence
 
 [tool.ruff.format]
@@ -34,6 +37,7 @@ ignore = []  # add codes you want to silence
 [dependency-groups]
 dev = [
     "pre-commit>=4.3.0",
+    "pyinstrument>=5.1.1",
     "ruff>=0.14.4",
 ]
 # Use Ruff's formatter (Black-compatible)
