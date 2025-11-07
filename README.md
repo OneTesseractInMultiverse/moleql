@@ -270,6 +270,9 @@ uv run pre-commit run --all-files
 4. Commit and push your changes
 5. Open a Pull Request 🚀
 
+See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for details.
+
+
 ## 🌟 Acknowledgments
 
 Built and maintained by [@OneTesseractInMultiverse](https://github.com/OneTesseractInMultiverse)
