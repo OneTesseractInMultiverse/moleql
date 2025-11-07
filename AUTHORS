@@ -1,0 +1,14 @@
+MoleQL — Query String to MongoDB Query Parser
+https://github.com/OneTesseractInMultiverse/moleql
+
+Maintained by:
+  Pedro Guzmán (OneTesseractInMultiverse)
+  <pedro@subvertic.com>
+
+Contributors:
+  • Open Source Community contributors
+
+Special thanks to:
+  • The Python OSS ecosystem
+  • Astral team for uv and Ruff
+  • MongoDB community for inspiration and documentation

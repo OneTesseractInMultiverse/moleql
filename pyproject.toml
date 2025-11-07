@@ -34,6 +34,9 @@ ignore = []  # add codes you want to silence
 
 [tool.ruff.format]
 
+[tool.hatch.build.include]
+paths = ["LICENSE", "NOTICE", "AUTHORS"]
+
 [dependency-groups]
 dev = [
     "pre-commit>=4.3.0",
@@ -43,4 +46,3 @@ dev = [
     "pytest-cov>=7.0.0",
     "ruff>=0.14.4",
 ]
-# Use Ruff's formatter (Black-compatible)
