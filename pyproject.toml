@@ -20,3 +20,20 @@ Issues = "https://github.com/OneTesseractInMultiverse/moleql/issues"
 [build-system]
 requires = ["uv_build>=0.8.23,<0.9.0"]
 build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["F", "E", "W", "I", "UP"]
+ignore = []  # add codes you want to silence
+
+[tool.ruff.format]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.3.0",
+    "ruff>=0.14.4",
+]
+# Use Ruff's formatter (Black-compatible)
