@@ -1,0 +1,8 @@
+# Core library
+/src/moleql/**        @OneTesseractInMultiverse/moleql-maintainers
+
+# Tests
+/tests/**             @OneTesseractInMultiverse/moleql-maintainers
+
+# CI workflows
+/.github/workflows/** @OneTesseractInMultiverse/moleql-maintainers
