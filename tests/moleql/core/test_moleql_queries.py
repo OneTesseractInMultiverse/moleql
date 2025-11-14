@@ -13,7 +13,7 @@ from moleql.mql.errors import (
 )
 
 
-class TestHQLQuery:
+class TestMoleQLQuery:
     def test_when_empty_query(self):
         expected = {
             "filter": {},
@@ -26,7 +26,7 @@ class TestHQLQuery:
         assert expected == actual
 
 
-class TestHQLProjection:
+class TestMoleQLProjection:
     def test_simple_projection(self):
         expected: dict = {
             "filter": {},
@@ -100,7 +100,7 @@ class TestHQLProjection:
         assert expected == actual
 
 
-class TestHQLQueryLimit:
+class TestMoleQLQueryLimit:
     def test_good_limit(self):
         expected: dict = {
             "filter": {},
@@ -132,7 +132,7 @@ class TestHQLQueryLimit:
             MoleQL("skip=bad_skip").mongo_query
 
 
-class TestHQLQuerySkip:
+class TestMoleQLQuerySkip:
     def test_good_limit(self):
         expected: dict = {
             "filter": {},
@@ -198,7 +198,7 @@ class TestRangeQueries:
         assert expected == actual
 
 
-class TestHQLSort:
+class TestMoleQLSort:
     def test_empty_sort(self):
         expected = {
             "filter": {},
@@ -290,7 +290,7 @@ class TestHQLSort:
         assert expected == actual
 
 
-class TestHQLFullTextSearch:
+class TestMoleQLFullTextSearch:
     def test_good_text_operator(self):
         expected = {
             "filter": {"$text": {"$search": "full text search"}},
@@ -307,7 +307,7 @@ class TestHQLFullTextSearch:
             MoleQL("$text=").mongo_query
 
 
-class TestHQLQueryErrors:
+class TestMoleQLQueryErrors:
     def test_list_operator_error(self):
         with pytest.raises(ListOperatorError):
             MoleQL("tags<=CR,US,FR").mongo_query
