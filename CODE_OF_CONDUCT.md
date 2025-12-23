@@ -66,7 +66,7 @@ an online or offline event.
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the project maintainers at:
 
-**pedro.guzman@onetesseract.dev**
+**pedro@subvertic.com**
 
 All complaints will be reviewed and investigated promptly and fairly.
 

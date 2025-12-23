@@ -1,9 +1,9 @@
-INPUT_HQL_URL_ENCODED: str = (
+INPUT_QUERY_URL_ENCODED: str = (
     "status=DISCOVERED&cvss_score%3E=5.6&active=true"
     "&created%3E2016-01-01&repository.name=/softlayer_sec/i"
     "&limit=100&skip=50&sort=-created&fields=-_id,-jira_id"
 )
-INPUT_HQL_NOT_ENCODED: str = (
+INPUT_QUERY_NOT_ENCODED: str = (
     "status=DISCOVERED&cvss_score>=5.6&active=true"
     "&created>2016-01-01&repository.name=/softlayer_sec/i"
     "&limit=100&skip=50&sort=-created&fields=-_id,-jira_id"
