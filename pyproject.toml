@@ -1,19 +1,15 @@
 [project]
 name = "moleql"
-version = "0.1.3"
-description = "Add your description here"
+version = "0.2.0"
+description = "Parse URL-style queries into MongoDB filters, sort, projection, and pagination data."
 readme = "README.md"
 authors = [
     { name = "Pedro Guzmán", email = "pedro@subvertic.com" }
 ]
 requires-python = ">=3.12"
 dependencies = [
-    "dateparse>=1.4.0",
     "dateparser>=1.2.2",
-    "mypy>=1.18.2",
     "pymongo>=4.15.3",
-    "pytest>=8.4.2",
-    "ruff>=0.14.4",
 ]
 
 [project.urls]
@@ -34,11 +30,19 @@ ignore = []  # add codes you want to silence
 
 [tool.ruff.format]
 
+[tool.coverage.run]
+source = ["src/moleql"]
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true
+
 [tool.hatch.build.include]
 paths = ["LICENSE", "NOTICE", "AUTHORS"]
 
 [dependency-groups]
 dev = [
+    "mypy>=1.18.2",
     "pre-commit>=4.3.0",
     "pyinstrument>=5.1.1",
     "pytest>=8.4.2",

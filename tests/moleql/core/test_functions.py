@@ -32,3 +32,10 @@ class TestExtractParameterList:
         expected: list[str] = EXPECTED_PARAMETER_LIST
         actual: list[str] = extract_parameter_list(hql_query=INPUT_QUERY_NOT_ENCODED)
         assert expected == actual
+
+    def test_with_encoded_ampersand_in_value(self):
+        expected: list[str] = ["$text=this & that", "status=active"]
+        actual: list[str] = extract_parameter_list(
+            hql_query="$text=this%20%26%20that&status=active"
+        )
+        assert expected == actual

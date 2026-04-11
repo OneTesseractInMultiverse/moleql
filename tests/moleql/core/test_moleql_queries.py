@@ -302,9 +302,35 @@ class TestMoleQLFullTextSearch:
         actual = MoleQL("$text=full text search").mongo_query
         assert expected == actual
 
+    def test_good_text_alias(self):
+        expected = {
+            "filter": {"$text": {"$search": "full text search"}},
+            "sort": None,
+            "skip": 0,
+            "limit": 0,
+            "projection": None,
+        }
+        actual = MoleQL("text=full text search").mongo_query
+        assert expected == actual
+
+    def test_good_text_operator_with_encoded_ampersand(self):
+        expected = {
+            "filter": {"$text": {"$search": "this & that"}},
+            "sort": None,
+            "skip": 0,
+            "limit": 0,
+            "projection": None,
+        }
+        actual = MoleQL("$text=this%20%26%20that").mongo_query
+        assert expected == actual
+
     def test_empty_text_operator(self):
         with pytest.raises(TextOperatorError):
             MoleQL("$text=").mongo_query
+
+    def test_empty_text_alias(self):
+        with pytest.raises(TextOperatorError):
+            MoleQL("text=").mongo_query
 
 
 class TestMoleQLQueryErrors:
@@ -315,3 +341,14 @@ class TestMoleQLQueryErrors:
     def test_filter_error(self):
         with pytest.raises(FilterError):
             MoleQL("tags==CR").mongo_query
+
+    def test_regex_value_can_contain_equals_sign(self):
+        expected = {
+            "filter": {"tags": {"$regex": "CR=US"}},
+            "sort": None,
+            "skip": 0,
+            "limit": 0,
+            "projection": None,
+        }
+        actual = MoleQL("tags=/CR=US/").mongo_query
+        assert expected == actual

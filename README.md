@@ -44,7 +44,7 @@ query = parse("age>30&country=US&name=/^John/i")
 - 🧾 Pagination: `skip=10, limit=50`
 - ⚙️ Sorting: `sort=-created_at,name`
 - 🧩 Projection: `fields=name,email,age`
-- 🔠 Text search: `text=free text here`
+- 🔠 Text search: `text=free text here` or `$text=free text here`
 - 🧱 Type casters: `custom value transformations`
 - 🚫 Blacklist: skip parsing of restricted fields
 - 🧪 Tested: full pytest coverage, Ruff linting
@@ -62,11 +62,6 @@ pip install moleql
 ```
 
 ## 🚀 Quick Start
-
-from moleql import parse
-
-query = parse("age>30&country=US&name=/^John/i")
-print(query)
 
 ```python
 from moleql import parse
@@ -109,7 +104,7 @@ Output:
         "age": {"$gte": 18},
         "status": {"$in": ["active", "pending"]}
     },
-    "sort": {"created_at": -1, "name": 1},
+    "sort": [("created_at", -1), ("name", 1)],
     "skip": 10,
     "limit": 20,
     "projection": {"name": 1, "email": 1, "age": 1}
@@ -128,7 +123,7 @@ Output:
 |        `in(...)` | `$in`          | `role=in(admin,user)`     |
 |      `!=in(...)` | `$nin`         | `tier!=in(gold,platinum)` |
 | `/pattern/flags` | `$regex`       | `name=/^Jo/i`             |
-|          `text=` | `$text`        | `text=free search text`   |
+| `text=` or `$text=` | `$text`     | `text=free search text`   |
 |        `fields=` | projection     | `fields=name,email`       |
 |          `sort=` | sort directive | `sort=-created_at,name`   |
 
@@ -226,14 +221,14 @@ Run the full suite using uv:
 
 ```bash
 uv sync --all-extras --dev
-uv run pytest -vv
+uv run pytest -vv --cov=moleql --cov-report=term-missing --cov-fail-under=100
 
 ```
 
 Generate coverage:
 
 ```bash
-uv run pytest --cov=moleql --cov-report=term-missing
+uv run pytest --cov=moleql --cov-report=term-missing --cov-fail-under=100
 
 ```
 
@@ -255,7 +250,6 @@ uv run pre-commit run --all-files
 ## 🧭 Roadmap
 
 - [] Add exists(field) and between(a,b) operators
-- [] Add alias for text= → $search convenience
 - [] Add optional CLI (moleql "age>20" --as-json)
 - [] Extended docs and tutorials
 

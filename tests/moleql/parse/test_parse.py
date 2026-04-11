@@ -69,3 +69,25 @@ class TestParse:
         }
         actual = parse("fields=_id,score,status", casters=DEFAULT_HQL_CASTERS)
         assert expected == actual
+
+    def test_text_alias(self):
+        expected: dict = {
+            "filter": {"$text": {"$search": "full text search"}},
+            "sort": None,
+            "skip": 0,
+            "limit": 0,
+            "projection": None,
+        }
+        actual = parse("text=full text search")
+        assert expected == actual
+
+    def test_text_operator_preserves_encoded_ampersand(self):
+        expected: dict = {
+            "filter": {"$text": {"$search": "this & that"}},
+            "sort": None,
+            "skip": 0,
+            "limit": 0,
+            "projection": None,
+        }
+        actual = parse("$text=this%20%26%20that")
+        assert expected == actual

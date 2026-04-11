@@ -20,3 +20,12 @@ class TestCustomCast:
     def test_when_custom_caster_with_invalid_value(self):
         with pytest.raises(CustomCasterError):
             custom_cast(value="int(xyz)", casters={"int": int})
+
+    def test_when_casters_is_none_returns_none(self):
+        # Covers the "if not casters" guard branch
+        assert custom_cast(value="anything", casters=None) is None
+
+    def test_when_custom_caster_returns_none_intentionally(self):
+        # The caster matched and explicitly returned None — must not fall back to default
+        actual: Any = custom_cast(value="nullable(x)", casters={"nullable": lambda _: None})
+        assert actual is None

@@ -52,3 +52,11 @@ class TestFindOperator:
         expected: str = NOT
         actual: str = find_operator("!key")
         assert expected == actual
+
+    def test_operator_char_in_value_picks_leftmost_operator(self):
+        # ">" is leftmost; old code using find() would have returned "=" instead
+        assert find_operator("price>10=something") == GREATER_THAN
+
+    def test_two_char_operator_with_more_operators_in_value(self):
+        # "!=" starts at index 3; stray ">" later in the string must not interfere
+        assert find_operator("key!=val>other") == NOT_EQUALS

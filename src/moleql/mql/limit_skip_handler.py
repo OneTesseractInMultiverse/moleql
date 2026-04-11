@@ -4,7 +4,7 @@ LIMIT_TEMPLATE: str = "limit="
 SKIP_TEMPLATE: str = "skip="
 SEPARATOR: str = "="
 SECOND_ELEMENT_INDEX: int = 1
-LIMIT_ERROR_TEMPLATE: str = "{parameter} if not a valid skip/limit value"
+LIMIT_ERROR_TEMPLATE: str = "{parameter} is not a valid skip/limit value"
 LIMIT_PROPERTY: str = "Limit"
 SKIP_PROPERTY: str = "Skip"
 NEGATIVE_ERROR_TEMPLATE: str = "{parameter} cannot be a negative number"
