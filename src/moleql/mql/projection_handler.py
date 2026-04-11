@@ -24,17 +24,59 @@ PROJECTION_DECODE_ERROR_TEMPLATE: str = (
 # FUNCTION EXTRACT PARAMETER VALUE
 # ---------------------------------------------------------
 def extract_parameter_value(parameter: str) -> str | None:
-    return parameter.split(PARAMETER_SEPARATOR)[SECOND_ELEMENT_INDEX]
+    return parameter.split(PARAMETER_SEPARATOR, 1)[SECOND_ELEMENT_INDEX]
 
 
 # ---------------------------------------------------------
 # FUNCTION HAS PROJECTION PARAMETERS
 # ---------------------------------------------------------
 def has_projection_parameters(parameter: str):
-    segments: list[str] = parameter.split(PARAMETER_SEPARATOR)
+    segments: list[str] = parameter.split(PARAMETER_SEPARATOR, 1)
     if len(segments) > 1 and segments[SECOND_ELEMENT_INDEX] != EMPTY_STRING:
         return True
     return False
+
+
+def split_projection_fields(parameter_value: str) -> list[str]:
+    field_list: list[str] = []
+    current_field: list[str] = []
+    nesting_depth: int = 0
+    inside_string: bool = False
+    escaping: bool = False
+
+    for character in parameter_value:
+        if escaping:
+            current_field.append(character)
+            escaping = False
+            continue
+
+        if inside_string:
+            current_field.append(character)
+            if character == "\\":
+                escaping = True
+            elif character == '"':
+                inside_string = False
+            continue
+
+        if character == '"':
+            inside_string = True
+            current_field.append(character)
+            continue
+
+        if character in "{[":
+            nesting_depth += 1
+        elif character in "}]":
+            nesting_depth -= 1
+
+        if character == FIELD_SEPARATOR and nesting_depth == 0:
+            field_list.append("".join(current_field))
+            current_field = []
+            continue
+
+        current_field.append(character)
+
+    field_list.append("".join(current_field))
+    return [field for field in field_list if field != EMPTY_STRING]
 
 
 # ---------------------------------------------------------
@@ -75,7 +117,7 @@ class ProjectionHandler:
 
     @property
     def parameter_list(self):
-        return extract_parameter_value(self.parameters).split(FIELD_SEPARATOR)
+        return split_projection_fields(extract_parameter_value(self.parameters))
 
     def include_in_projection(self, field):
         self.projection_query[field] = INCLUDE
@@ -86,7 +128,7 @@ class ProjectionHandler:
     def parse_json_parameter(self, field):
         try:
             json_value = json.loads(field)
-            self.projection_query[next(iter(json_value))] = json_value[next(iter(json_value))]
+            self.projection_query.update(json_value)
         except Exception as error:
             raise ProjectionError(PROJECTION_DECODE_ERROR_TEMPLATE) from error
 

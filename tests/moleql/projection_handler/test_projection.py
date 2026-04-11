@@ -3,7 +3,7 @@ from typing import Any
 import pytest
 
 from moleql.mql.errors import ProjectionError
-from moleql.mql.projection_handler import ProjectionHandler
+from moleql.mql.projection_handler import ProjectionHandler, split_projection_fields
 
 
 def get_projection_with_json():
@@ -26,6 +26,11 @@ def get_projection_with_invalid_json():
 
 
 class TestProjection:
+    def test_split_projection_fields_keeps_json_with_commas_together(self):
+        actual = split_projection_fields('{"meta":{"$literal":"say \\"hi\\""}},created')
+        expected = ['{"meta":{"$literal":"say \\"hi\\""}}', "created"]
+        assert actual == expected
+
     def test_when_projection_has_no_value(self):
         expected: Any = None
         actual: Any = ProjectionHandler(projection_parameter="fields=").projection
@@ -52,3 +57,10 @@ class TestProjection:
             "last_updated": 1,
         }
         assert get_projection_with_json() == expected
+
+    def test_when_projection_has_json_with_multiple_keys(self):
+        expected: Any = {"created": 1, "last_updated": 1}
+        actual: Any = ProjectionHandler(
+            projection_parameter='fields={"created":1,"last_updated":1}'
+        ).projection
+        assert actual == expected

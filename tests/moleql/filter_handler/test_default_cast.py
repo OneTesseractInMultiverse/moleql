@@ -14,11 +14,13 @@ class TestDefaultCast:
         expected: int = 10
         actual: Any = default_cast("10")
         assert expected == actual
+        assert type(actual) is int
 
     def test_default_caster_for_float(self):
         expected: float = 10.45
         actual: Any = default_cast("10.45")
         assert expected == actual
+        assert type(actual) is float
 
     def test_default_caster_for_date_with_dashes(self):
         expected: datetime.datetime = datetime.datetime(day=10, month=1, year=2023)
@@ -44,9 +46,19 @@ class TestDefaultCast:
         actual: Any = default_cast("crc,usd")
         assert expected == actual
 
+    def test_default_caster_for_numeric_list(self):
+        expected: list[str] = ["1", "2"]
+        actual: Any = default_cast("1,2")
+        assert expected == actual
+
     def test_default_caster_for_regex(self):
         expected: str = {"$options": "i", "$regex": "@ibm\\.com$"}
         actual: Any = default_cast("/@ibm\\.com$/i")
+        assert expected == actual
+
+    def test_default_caster_for_regex_with_comma(self):
+        expected: str = {"$regex": "crc,usd"}
+        actual: Any = default_cast("/crc,usd/")
         assert expected == actual
 
     def test_default_caster_for_boolean_true(self):

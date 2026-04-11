@@ -10,7 +10,7 @@ pre-commit:
 	uv run pre-commit run --all-files
 
 test:
-	uv run pytest -v --cov=./src --cov-report term-missing
+	uv run pytest -v --cov=./src --cov-report term-missing --cov-fail-under=100
 
 perf-test:
 	uv run pytest -k benchmark --benchmark-autosave

@@ -24,6 +24,7 @@ class TestFilters:
         expected: dict = {"key": 10}
         actual: dict = FilterHandler(input_param, None).filter
         assert expected == actual
+        assert type(actual["key"]) is int
 
     def test_equality_for_single_float_value(self):
         input_param: str = "key=10.14"
@@ -40,6 +41,12 @@ class TestFilters:
     def test_in_operator_for_list_of_strings(self):
         input_param: str = "key=crc,usd"
         expected: dict = {"key": {"$in": ["crc", "usd"]}}
+        actual: dict = FilterHandler(input_param, None).filter
+        assert expected == actual
+
+    def test_in_operator_for_list_of_numbers(self):
+        input_param: str = "key=1,2"
+        expected: dict = {"key": {"$in": [1, 2]}}
         actual: dict = FilterHandler(input_param, None).filter
         assert expected == actual
 
@@ -148,6 +155,12 @@ class TestFilters:
     def test_not_equals_operator_with_date(self):
         input_param: str = "key!=2023-01-12"
         expected: dict = {"key": {"$ne": datetime.datetime(year=2023, month=1, day=12)}}
+        actual: dict = FilterHandler(input_param, None).filter
+        assert expected == actual
+
+    def test_regex_value_can_contain_operator_characters(self):
+        input_param: str = "key=/a=b/"
+        expected: dict = {"key": {"$regex": "a=b"}}
         actual: dict = FilterHandler(input_param, None).filter
         assert expected == actual
 

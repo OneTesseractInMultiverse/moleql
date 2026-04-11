@@ -1,4 +1,5 @@
 import datetime
+from typing import Any
 
 from bson import ObjectId
 
@@ -40,5 +41,5 @@ def cast_as_timestamp(value: str) -> datetime.datetime:
 # ---------------------------------------------------------
 # CAST AS OBJECT ID
 # ---------------------------------------------------------
-def cast_as_str(value: any) -> str:
+def cast_as_str(value: Any) -> str:
     return str(value)

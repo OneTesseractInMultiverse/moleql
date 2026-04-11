@@ -58,7 +58,10 @@ def extract_parameter_list(hql_query: str) -> list[str]:
     Returns:
         list[str]: Individual parameter expressions.
     """
-    return list(parse.unquote(hql_query).split(QUERY_STRING_PARAM_SEPARATOR))
+    return [
+        parse.unquote(parameter)
+        for parameter in hql_query.split(QUERY_STRING_PARAM_SEPARATOR)
+    ]
 
 
 # ---------------------------------------------------------
@@ -84,7 +87,7 @@ def remove_blacklisted(hql_query: str, blacklist: tuple[str, ...] | None):
 
 def is_text_search_argument(parameter):
     """Check if parameter is a text-search argument."""
-    return parameter.startswith(f"{TEXT_KEY}=")
+    return parameter.startswith(f"{TEXT_KEY}=") or parameter.startswith("text=")
 
 
 def is_projection_argument(parameter):
@@ -151,7 +154,7 @@ class MoleQL:
             hql_query=self.moleql_query, blacklist=self.blacklist
         )
         self.casters: dict[str, Callable] | None = casters
-        self.output_query: dict[str, any] = {
+        self.output_query: dict[str, Any] = {
             FILTER: {},
             SORT_KEY: None,
             SKIP_KEY: 0,
